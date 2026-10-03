@@ -31,8 +31,12 @@ export function LangProvider({ children }: { children: ReactNode }) {
     const html = document.documentElement;
     html.lang = lang;
     html.dir = lang === "ar" ? "rtl" : "ltr";
-    localStorage.setItem(KEY, lang);
   }, [lang]);
+
+  const apply = useCallback((next: Lang) => {
+    localStorage.setItem(KEY, next);
+    setLang(next);
+  }, []);
 
   const toggle = useCallback(() => {
     if (busy.current) return;
@@ -40,7 +44,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     const curtain = document.querySelector<HTMLElement>("[data-curtain]");
     const label = curtain?.querySelector<HTMLElement>("[data-curtain-label]");
     if (!curtain || !label) {
-      setLang(next);
+      apply(next);
       return;
     }
 
@@ -59,7 +63,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
       .set(curtain, { display: "flex", clipPath: "inset(100% 0 0 0)" })
       .to(curtain, { clipPath: "inset(0% 0 0 0)", duration: 0.7, ease: "expo.inOut" })
       .fromTo(label, { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, "-=0.25")
-      .add(() => setLang(next))
+      .add(() => apply(next))
       .add(() => {
         ScrollTrigger.refresh();
         const lenis = getLenis();
@@ -70,7 +74,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
       .to(label, { yPercent: -100, duration: 0.45, ease: "expo.in" }, "+=0.1")
       .to(curtain, { clipPath: "inset(0 0 100% 0)", duration: 0.8, ease: "expo.inOut" }, "-=0.1")
       .set(curtain, { display: "none" });
-  }, [lang]);
+  }, [lang, apply]);
 
   return (
     <LangContext.Provider value={{ lang, t: copy[lang], toggle }}>{children}</LangContext.Provider>

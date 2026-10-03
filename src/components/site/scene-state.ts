@@ -13,14 +13,18 @@ export type SceneTarget = { x: number; y: number; s: number };
 type Anchor = { el: HTMLElement; x: number; y: number; s: number };
 let anchors: Anchor[] = [];
 let anchorsMain: Element | null = null;
+let anchorsMobile = false;
 
-/** Sections only change when <main> remounts (route or language switch). */
+/** Sections only change when <main> remounts (route or language switch); phones may use `data-scene-m`. */
 function getAnchors() {
   const main = document.querySelector("main");
-  if (main !== anchorsMain || !anchors[0]?.el.isConnected) {
+  const mobile = window.innerWidth < 768;
+  if (main !== anchorsMain || mobile !== anchorsMobile || !anchors[0]?.el.isConnected) {
     anchorsMain = main;
+    anchorsMobile = mobile;
     anchors = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]")).map((el) => {
-      const [x = 0, y = 0, s = 1] = (el.dataset["scene"] || "0,0,1").split(",").map(Number);
+      const raw = (mobile && el.dataset["sceneM"]) || el.dataset["scene"] || "0,0,1";
+      const [x = 0, y = 0, s = 1] = raw.split(",").map(Number);
       return { el, x, y, s };
     });
   }

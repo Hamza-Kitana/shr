@@ -201,7 +201,7 @@ export function Curtain() {
       <span className="overflow-hidden">
         <span
           data-curtain-label
-          className="block font-display text-[14vw] font-bold uppercase leading-none tracking-tighter text-gradient md:text-[9vw]"
+          className="block px-[0.08em] py-[0.18em] font-display text-[14vw] font-bold uppercase leading-none tracking-tighter text-gradient md:text-[9vw] rtl:leading-[1.15]"
         />
       </span>
     </div>
@@ -485,7 +485,7 @@ export function Nav() {
     if (open)
       gsap.fromTo(
         "[data-menu-item]",
-        { yPercent: 110 },
+        { yPercent: 130 },
         { yPercent: 0, stagger: 0.06, delay: 0.3, duration: 0.8, ease: "expo.out" },
       );
   }, [open, corner]);
@@ -546,13 +546,13 @@ export function Nav() {
         className="fixed inset-0 z-[78] flex flex-col justify-between bg-card px-6 pb-10 pt-28 lg:hidden"
         style={{ clipPath: `circle(0% at ${corner})` }}
       >
-        <ul className="space-y-2">
+        <ul>
           {nav.map((n, i) => (
             <li key={n.href} className="overflow-hidden">
               <button
                 data-menu-item
                 onClick={() => go(n.href)}
-                className="flex items-baseline gap-4 font-display text-5xl font-bold"
+                className="flex items-baseline gap-4 py-[0.1em] font-display text-5xl font-bold"
               >
                 <span className="font-mono text-xs text-primary">0{i + 1}</span>
                 {n.label}

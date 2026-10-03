@@ -261,7 +261,7 @@ function about() {
 /* SERVICES — cards fall in from depth; the section glow and the 3D core follow whichever service is in view. */
 function services() {
   gsap.from(".svc-title-line", {
-    yPercent: 105,
+    yPercent: 130,
     stagger: 0.1,
     duration: 1.2,
     ease: "expo.out",
@@ -555,7 +555,7 @@ function testimonials() {
 /* TEAM — portraits are unveiled bottom-up while their images settle from a zoom. */
 function team() {
   gsap.from(".team-title-line", {
-    yPercent: 105,
+    yPercent: 130,
     duration: 1.2,
     ease: "expo.out",
     scrollTrigger: {

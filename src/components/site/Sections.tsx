@@ -163,20 +163,35 @@ export function Hero() {
 
 /* ───────────────────────── ABOUT (storytelling) ───────────────────────── */
 
+/** Planet poses that keep it beside, never behind, each chapter's copy (mirrored in RTL). */
+const SCENE_STORY = "0.62,0.12,0.85";
+const SCENE_TIMELINE = "-0.78,0.12,0.6";
+const SCENE_TIMELINE_M = "0.95,-0.35,0.5";
+const SCENE_MISSION = "0.82,-0.55,0.5";
+
 function Chapter({
   i,
   children,
   align = "start",
+  scene,
+  sceneM,
 }: {
   i: number;
   children: ReactNode;
   align?: "start" | "end" | "center";
+  scene?: string;
+  sceneM?: string;
 }) {
   const { t } = useLang();
   const a =
     align === "end" ? "md:ms-auto md:text-end" : align === "center" ? "mx-auto text-center" : "";
   return (
-    <div data-chapter={i} className={`chapter-${i} relative max-w-4xl ${a}`}>
+    <div
+      data-chapter={i}
+      data-scene={scene}
+      data-scene-m={sceneM}
+      className={`chapter-${i} relative max-w-4xl ${a}`}
+    >
       <p className="chap-label eyebrow mb-5 text-primary">
         0{i + 1} — {t.about.chapters[i]!.k}
       </p>
@@ -192,7 +207,7 @@ export function About({ teaser = false }: { teaser?: boolean }) {
     <section
       id="about"
       data-title={t.nav[1]}
-      data-scene="0.62,0.12,0.85"
+      data-scene={SCENE_STORY}
       className="about-story relative overflow-hidden py-32 md:py-48"
     >
       <div className="about-year pointer-events-none absolute -start-[5vw] top-24 select-none font-display text-[38vw] font-bold leading-none text-outline">
@@ -212,10 +227,11 @@ export function About({ teaser = false }: { teaser?: boolean }) {
               </span>
             ))}
           </p>
+          <span aria-hidden data-scene={SCENE_STORY} className="block" />
         </Chapter>
 
         {/* 02 — timeline drawn by scroll */}
-        <Chapter i={1} align="end">
+        <Chapter i={1} align="end" scene={SCENE_TIMELINE} sceneM={SCENE_TIMELINE_M}>
           <p className="chap-text font-display text-3xl font-semibold leading-[1.12] tracking-tight md:text-5xl">
             {a.chapters[1]!.t}
           </p>
@@ -237,11 +253,21 @@ export function About({ teaser = false }: { teaser?: boolean }) {
                 </li>
               ))}
             </ol>
+            <span
+              aria-hidden
+              data-scene={SCENE_TIMELINE}
+              data-scene-m={SCENE_TIMELINE_M}
+              className="block"
+            />
           </div>
         </Chapter>
 
         {/* 03 — image mask reveal */}
-        <div data-chapter={2} className="chapter-2 grid items-center gap-10 md:grid-cols-12">
+        <div
+          data-chapter={2}
+          data-scene={SCENE_MISSION}
+          className="chapter-2 grid items-center gap-10 md:grid-cols-12"
+        >
           <div
             className="mission-mask relative aspect-[4/5] overflow-hidden rounded-2xl md:col-span-5"
             style={{ clipPath: "inset(100% 0 0 0 round 1rem)" }}
@@ -262,11 +288,12 @@ export function About({ teaser = false }: { teaser?: boolean }) {
             <p className="mission-text font-display text-3xl font-semibold leading-[1.12] tracking-tight md:text-5xl">
               {a.chapters[2]!.t}
             </p>
+            <span aria-hidden data-scene={SCENE_MISSION} className="block" />
           </div>
         </div>
 
         {/* 04 — blur to focus */}
-        <Chapter i={3} align="center">
+        <Chapter i={3} align="center" scene="-0.82,0,0.45">
           <p className="vision-text font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-7xl">
             {a.visionA} <span className="text-gradient">{a.visionB}</span>
           </p>
@@ -339,10 +366,10 @@ export function Services() {
       <div className="relative mx-auto">
         <div className="mb-20 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <h2 className="svc-title font-display text-5xl font-bold tracking-tight md:text-8xl">
-            <span className="block overflow-hidden">
+            <span className="-my-[0.14em] block overflow-hidden py-[0.14em]">
               <span className="svc-title-line block">{s.t1}</span>
             </span>
-            <span className="block overflow-hidden">
+            <span className="-my-[0.14em] block overflow-hidden py-[0.14em]">
               <span className="svc-title-line block text-gradient">{s.t2}</span>
             </span>
           </h2>
@@ -825,7 +852,7 @@ export function Team({ teaser = false }: { teaser?: boolean }) {
       <div className="mx-auto">
         <div className="mb-16 flex items-end justify-between">
           <h2 className="team-title font-display text-5xl font-bold tracking-tight md:text-8xl">
-            <span className="block overflow-hidden">
+            <span className="-my-[0.14em] block overflow-hidden py-[0.14em]">
               <span className="team-title-line block">{tm.title}</span>
             </span>
           </h2>
