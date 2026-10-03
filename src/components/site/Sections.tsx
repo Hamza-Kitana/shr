@@ -510,7 +510,7 @@ export function Stats() {
             <div
               key={i}
               data-dir={i % 2 ? -1 : 1}
-              className={`stat-row group flex items-baseline justify-between gap-6 py-6 ${i % 2 ? "flex-row-reverse" : ""}`}
+              className={`stat-row group flex items-center justify-between gap-6 py-6 ${i % 2 ? "flex-row-reverse" : ""}`}
             >
               <span
                 dir="ltr"
@@ -518,7 +518,14 @@ export function Stats() {
               >
                 +<span data-count={statValues[i]}>0</span>
               </span>
-              <span className="stat-label eyebrow text-foreground">{label}</span>
+              <span
+                className={`stat-label flex max-w-[14ch] flex-col rtl:max-w-[24ch] gap-2 ${i % 2 ? "items-start text-start" : "items-end text-end"}`}
+              >
+                <span className="font-mono text-xs text-primary">0{i + 1}</span>
+                <span className="font-display text-lg font-semibold leading-tight text-foreground md:text-3xl lg:text-4xl">
+                  {label}
+                </span>
+              </span>
             </div>
           ))}
         </div>
